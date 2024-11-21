@@ -1,5 +1,6 @@
 package com.joaodinizaraujo.secretsantapicker.api.util;
 
+import com.joaodinizaraujo.secretsantapicker.api.exception.RegisterNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -55,6 +56,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Argumento inválido: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(RegisterNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> handleIllegalArgumentException(RegisterNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Argumento inválido: " + ex.getMessage());
     }
 
     @ExceptionHandler(ClassNotFoundException.class)

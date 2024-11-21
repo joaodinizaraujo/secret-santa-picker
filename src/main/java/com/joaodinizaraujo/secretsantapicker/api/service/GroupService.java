@@ -1,5 +1,6 @@
 package com.joaodinizaraujo.secretsantapicker.api.service;
 
+import com.joaodinizaraujo.secretsantapicker.api.exception.RegisterNotFoundException;
 import com.joaodinizaraujo.secretsantapicker.api.model.Group;
 import com.joaodinizaraujo.secretsantapicker.api.model.User;
 import com.joaodinizaraujo.secretsantapicker.api.repository.GroupRepository;
@@ -21,7 +22,7 @@ public class GroupService {
     public Group getById(Long id) {
         Optional<Group> group = groupRepository.findById(id);
         if (group.isEmpty())
-            throw new IllegalArgumentException("Group with ID " + id + " not found.");
+            throw new RegisterNotFoundException("Group with ID " + id + " not found.");
 
         return group.get();
     }
@@ -64,7 +65,7 @@ public class GroupService {
 
         List<User> members = group.getMembers();
         if (members.isEmpty())
-            throw new IllegalArgumentException("Group has no members to generate matches.");
+            throw new RegisterNotFoundException("Group has no members to generate matches.");
 
         group.generateRandomMatches();
         return insert(group);
@@ -91,7 +92,7 @@ public class GroupService {
                 .findFirst();
 
         if (receiver.isEmpty())
-            throw new IllegalArgumentException("The provided email does not match with a receiver.");
+            throw new RegisterNotFoundException("The provided email does not match with a receiver.");
 
         return receiver.get();
     }
